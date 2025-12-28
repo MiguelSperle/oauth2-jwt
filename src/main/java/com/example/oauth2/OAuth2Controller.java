@@ -15,7 +15,7 @@ public class OAuth2Controller {
 
     @PostMapping("/auth/login")
     public String login() {
-        return this.jwtService.generateToken(UUID.randomUUID().toString(), "ADMIN");
+        return this.jwtService.generateToken(UUID.randomUUID().toString(), "USER");
     }
 
     @GetMapping("/private")
