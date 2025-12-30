@@ -21,13 +21,11 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException ex) throws IOException {
         final Throwable cause = ex.getCause();
 
-        String message;
+        String message = "Authentication failed";
         if (cause instanceof AuthorizationDeniedException) {
             message = "JWT token is required to access this resource";
         } else if (cause instanceof BadJwtException) {
             message = "JWT token is invalid";
-        } else {
-            message = "Unknown error";
         }
 
         final ApiError apiError = new ApiError(Collections.singletonList(message), HttpStatus.UNAUTHORIZED.getReasonPhrase());
