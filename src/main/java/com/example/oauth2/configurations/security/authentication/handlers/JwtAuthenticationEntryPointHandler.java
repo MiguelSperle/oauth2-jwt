@@ -1,5 +1,6 @@
-package com.example.oauth2;
+package com.example.oauth2.configurations.security.authentication.handlers;
 
+import com.example.oauth2.utils.ApiError;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
@@ -16,11 +17,12 @@ import java.io.OutputStream;
 import java.util.Collections;
 
 @Component
-public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class JwtAuthenticationEntryPointHandler implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException ex) throws IOException {
         final Throwable cause = ex.getCause();
-
+        System.out.println(ex);
+        System.out.println(cause);
         String message = "Authentication failed";
         if (cause instanceof AuthorizationDeniedException) {
             message = "JWT token is required to access this resource";

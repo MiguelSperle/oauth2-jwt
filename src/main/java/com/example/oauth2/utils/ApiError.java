@@ -1,4 +1,4 @@
-package com.example.oauth2;
+package com.example.oauth2.utils;
 
 import java.util.List;
 

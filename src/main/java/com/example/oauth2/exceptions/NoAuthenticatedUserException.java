@@ -1,4 +1,4 @@
-package com.example.oauth2;
+package com.example.oauth2.exceptions;
 
 public class NoAuthenticatedUserException extends RuntimeException {
     public NoAuthenticatedUserException(String message) {

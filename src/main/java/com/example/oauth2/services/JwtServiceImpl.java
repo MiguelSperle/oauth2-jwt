@@ -1,5 +1,6 @@
-package com.example.oauth2;
+package com.example.oauth2.services;
 
+import com.example.oauth2.abstractions.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -7,6 +8,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -24,6 +26,7 @@ public class JwtServiceImpl implements JwtService {
                 .expiresAt(now.plusSeconds(expiresIn))
                 .subject(userId)
                 .claim("role", role)
+                .claim("permissions", List.of("WRITE", "READ"))
                 .build();
 
         return this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();

@@ -8,3 +8,14 @@ spring:
         key: classpath:app.pub
       private:
         key: classpath:app.key
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 338734579091-cg1v1rr5uc7l1ebnk1b4jk57q6v4mgtq.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - email
+              - profile

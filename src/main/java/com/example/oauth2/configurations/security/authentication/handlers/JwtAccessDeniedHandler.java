@@ -1,6 +1,6 @@
-package com.example.oauth2;
+package com.example.oauth2.configurations.security.authentication.handlers;
 
-
+import com.example.oauth2.utils.ApiError;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import java.io.OutputStream;
 import java.util.Collections;
 
 @Component
-public class CustomAccessDeniedHandler implements AccessDeniedHandler {
+public class JwtAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException ex) throws IOException {
         final String message = "Access denied. You don't have permission to access this resource";
