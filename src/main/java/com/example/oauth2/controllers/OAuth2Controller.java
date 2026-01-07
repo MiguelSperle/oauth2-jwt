@@ -27,7 +27,7 @@ public class OAuth2Controller {
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         cookie.setPath("/");
-        cookie.setMaxAge(5);
+        cookie.setMaxAge(3600);
         cookie.setAttribute("SameSite", "Strict");
 
         response.addCookie(cookie);
