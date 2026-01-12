@@ -24,10 +24,10 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 
-        final OutputStream responseStream = response.getOutputStream();
+        final OutputStream outputStream = response.getOutputStream();
         final ObjectMapper mapper = new ObjectMapper();
 
-        mapper.writeValue(responseStream, apiError);
-        responseStream.flush();
+        mapper.writeValue(outputStream, apiError);
+        outputStream.flush();
     }
 }

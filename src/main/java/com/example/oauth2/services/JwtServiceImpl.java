@@ -2,6 +2,7 @@ package com.example.oauth2.services;
 
 import com.example.oauth2.abstractions.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
@@ -15,18 +16,24 @@ import java.util.List;
 public class JwtServiceImpl implements JwtService {
     private final JwtEncoder jwtEncoder;
 
-    @Override
-    public String generateToken(String userId, String role) {
-        final Instant now = Instant.now();
-        final long expiresIn = 10L;
+    @Value("${spring.api.jwt.issuer}")
+    private String issuer;
 
-        final var claims = JwtClaimsSet.builder()
-                .issuer("oauth2-project")
+    @Override
+    public String generateAccessToken(
+            String userId,
+            String role,
+            List<String> permissions
+    ) {
+        final Instant now = Instant.now();
+
+        final JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer(this.issuer)
                 .issuedAt(now)
-                .expiresAt(now.plusSeconds(expiresIn))
+                .expiresAt(now.plusSeconds(900)) // from 5 until 15 minutes for the jwt expire
                 .subject(userId)
                 .claim("role", role)
-                .claim("permissions", List.of("WRITE", "READ"))
+                .claim("permissions", permissions)
                 .build();
 
         return this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();

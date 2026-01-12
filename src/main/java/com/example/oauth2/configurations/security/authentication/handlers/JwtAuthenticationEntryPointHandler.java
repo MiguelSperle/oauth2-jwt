@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.jwt.BadJwtException;
 import org.springframework.security.oauth2.jwt.JwtValidationException;
@@ -41,10 +40,10 @@ public class JwtAuthenticationEntryPointHandler implements AuthenticationEntryPo
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-        final OutputStream responseStream = response.getOutputStream();
+        final OutputStream outputStream = response.getOutputStream();
         final ObjectMapper mapper = new ObjectMapper();
 
-        mapper.writeValue(responseStream, apiError);
-        responseStream.flush();
+        mapper.writeValue(outputStream, apiError);
+        outputStream.flush();
     }
 }

@@ -1,16 +1,21 @@
 package com.example.oauth2.configurations.security.authentication.handlers;
 
 import com.example.oauth2.abstractions.JwtService;
-import com.example.oauth2.configurations.security.authentication.CustomOAuth2User;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.util.Collections;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -19,19 +24,31 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
-        final CustomOAuth2User customOAuth2User = (CustomOAuth2User) authentication.getPrincipal();
+        final OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
 
-        final String jwt = this.jwtService.generateToken(customOAuth2User.getUserId(), "USER");
+        System.out.println(oAuth2User.getAttributes()); // data of google user
 
-        final Cookie cookie = new Cookie("jwt", jwt);
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(3600);
-        cookie.setAttribute("SameSite", "Strict");
+        // * Here you can search or create a user in the database
 
-        response.addCookie(cookie);
-        response.sendRedirect("http://localhost:3000/home");
+        final String userId = UUID.randomUUID().toString();
+
+        final String accessToken = this.jwtService.generateAccessToken(userId, "USER", Collections.emptyList());
+        final String refreshToken = UUID.randomUUID().toString();
+
+        final ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("None")
+                .path("/api/auth/refresh")
+                .maxAge(Duration.ofDays(15))
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
+        final String redirectURL = UriComponentsBuilder.fromUriString("http://localhost:3000/oauth/callback")
+                .queryParam("accessToken", accessToken).build().toUriString();
+
+        response.sendRedirect(redirectURL);
     }
 }
 

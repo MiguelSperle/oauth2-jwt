@@ -4,6 +4,7 @@ spring:
 
   api:
     jwt:
+      issuer: oauth2-project
       public:
         key: classpath:app.pub
       private:

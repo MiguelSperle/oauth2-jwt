@@ -5,12 +5,16 @@ import com.example.oauth2.abstractions.JwtService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.Duration;
+import java.util.Collections;
 import java.util.UUID;
 
 @RestController
@@ -20,33 +24,21 @@ public class OAuth2Controller {
     private final SecurityService securityService;
 
     @PostMapping("/auth/login")
-    public ResponseEntity<Void> login(HttpServletResponse response) {
-        final String jwt = this.jwtService.generateToken(UUID.randomUUID().toString(), "USER");
+    public ResponseEntity<AuthorizationResponse> login(HttpServletResponse response) {
+        final String accessToken = this.jwtService.generateAccessToken(UUID.randomUUID().toString(), "USER", Collections.emptyList());
+        final String refreshToken = UUID.randomUUID().toString();
 
-        final Cookie cookie = new Cookie("accessToken", jwt);
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(3600);
-        cookie.setAttribute("SameSite", "Strict");
+        final ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("None")
+                .path("/api/auth/refresh")
+                .maxAge(Duration.ofDays(15)) // from 7 to 30 days to keep refreshToken in the cookie
+                .build();
 
-        response.addCookie(cookie);
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
-        return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping("/auth/logout")
-    public ResponseEntity<Void> logout(HttpServletResponse response) {
-        final Cookie cookie = new Cookie("accessToken", null);
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(0);
-        cookie.setAttribute("SameSite", "Strict");
-
-        response.addCookie(cookie);
-
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().body(AuthorizationResponse.from(accessToken));
     }
 
     @GetMapping("/private")
