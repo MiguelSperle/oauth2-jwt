@@ -25,7 +25,7 @@ public class JwtServiceImpl implements JwtService {
             String role,
             List<String> permissions
     ) {
-        final Instant now = Instant.now();
+        final Instant now = Instant.now(); // instant is UTC and with that, it ignores local time zone ( it is a universal watch )
 
         final JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer(this.issuer)

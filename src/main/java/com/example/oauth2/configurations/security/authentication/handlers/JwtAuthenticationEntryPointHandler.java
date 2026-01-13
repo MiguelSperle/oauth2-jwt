@@ -20,14 +20,14 @@ import java.util.Collections;
 @Component
 public class JwtAuthenticationEntryPointHandler implements AuthenticationEntryPoint {
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authenticationException) throws IOException {
         String message = "Authentication failed";
 
-        if (authException instanceof InsufficientAuthenticationException) {
+        if (authenticationException instanceof InsufficientAuthenticationException) {
             message = "Access token is required to access this resource";
         }
 
-        final Throwable cause = authException.getCause();
+        final Throwable cause = authenticationException.getCause();
 
         if (cause instanceof JwtValidationException) {
             message = "Access token is expired";

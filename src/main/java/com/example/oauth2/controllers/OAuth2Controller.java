@@ -1,14 +1,12 @@
 package com.example.oauth2.controllers;
 
-import com.example.oauth2.abstractions.SecurityService;
+import com.example.oauth2.abstractions.CurrentUserService;
 import com.example.oauth2.abstractions.JwtService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class OAuth2Controller {
     private final JwtService jwtService;
-    private final SecurityService securityService;
+    private final CurrentUserService currentUserService;
 
     @PostMapping("/auth/login")
     public ResponseEntity<AuthorizationResponse> login(HttpServletResponse response) {
@@ -43,7 +41,7 @@ public class OAuth2Controller {
 
     @GetMapping("/private")
     public String routePrivate() {
-        final var userId = this.securityService.getUserId();
+        final var userId = this.currentUserService.getUserId();
         return "private route " + userId;
     }
 

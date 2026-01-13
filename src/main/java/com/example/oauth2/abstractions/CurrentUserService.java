@@ -1,5 +1,5 @@
 package com.example.oauth2.abstractions;
 
-public interface SecurityService {
+public interface CurrentUserService {
     String getUserId();
 }
