@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,15 +27,15 @@ public class OAuth2Controller {
         final String accessToken = this.jwtService.generateAccessToken(UUID.randomUUID().toString(), "USER", Collections.emptyList());
         final String refreshToken = UUID.randomUUID().toString();
 
-        final ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
+        final ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", refreshToken)
                 .httpOnly(true)
                 .secure(true)
-                .sameSite("None")
-                .path("/api/auth/refresh")
+                .sameSite("None") // backend domain is different of frontend domain that's why is None
+                .path("/auth/refresh")
                 .maxAge(Duration.ofDays(15)) // from 7 to 30 days to keep refreshToken in the cookie
                 .build();
 
-        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
 
         return ResponseEntity.ok().body(AuthorizationResponse.from(accessToken));
     }
@@ -48,5 +49,11 @@ public class OAuth2Controller {
     @GetMapping("/role")
     public String role() {
         return "Voce conseguiu acessar pois tem cargo para isso!";
+    }
+
+    @PostMapping("/auth/refresh")
+    public ResponseEntity<String> refresh(@CookieValue(value = "refreshToken") String refreshToken) {
+        System.out.println(refreshToken);
+        return ResponseEntity.ok().build();
     }
 }

@@ -38,7 +38,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         final ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
                 .httpOnly(true)
                 .secure(true)
-                .sameSite("None")
+                .sameSite("None") // backend domain is different of frontend domain that's why is None
                 .path("/api/auth/refresh")
                 .maxAge(Duration.ofDays(15))
                 .build();

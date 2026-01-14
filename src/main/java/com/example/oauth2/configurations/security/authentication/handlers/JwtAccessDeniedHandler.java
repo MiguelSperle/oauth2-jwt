@@ -18,6 +18,7 @@ import java.util.Collections;
 public class JwtAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
+        System.out.println(accessDeniedException);
         final String message = "Access denied. You don't have permission to access this resource";
         final ApiError apiError = new ApiError(Collections.singletonList(message), HttpStatus.FORBIDDEN.getReasonPhrase());
 
