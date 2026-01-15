@@ -16,7 +16,7 @@ import java.util.List;
 public class JwtServiceImpl implements JwtService {
     private final JwtEncoder jwtEncoder;
 
-    @Value("${spring.api.jwt.issuer}")
+    @Value("${app.jwt.issuer}")
     private String issuer;
 
     @Override

@@ -1,15 +1,4 @@
 spring:
-  application:
-    name: oauth2
-
-  api:
-    jwt:
-      issuer: oauth2-project
-      public:
-        key: classpath:app.pub
-      private:
-        key: classpath:app.key
-
   security:
     oauth2:
       client:
@@ -20,3 +9,14 @@ spring:
             scope:
               - email
               - profile
+
+application:
+  jwt:
+    issuer: oauth2
+    public:
+      key: classpath:app.pub
+    private:
+      key: classpath:app.key
+  web:
+    cors:
+      allowed-origin: http://localhost:3000

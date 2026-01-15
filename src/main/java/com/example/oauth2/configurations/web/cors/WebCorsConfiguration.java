@@ -13,13 +13,13 @@ import java.util.List;
 
 @Configuration
 public class WebCorsConfiguration {
-    @Value("${app.web.cors.origin.domain}")
-    private String originDomain;
+    @Value("${application.web.cors.allowed-origin}")
+    private String allowedOrigin;
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         final CorsConfiguration webCorsConfiguration = new CorsConfiguration();
-        webCorsConfiguration.addAllowedOrigin(this.originDomain);
+        webCorsConfiguration.addAllowedOrigin(this.allowedOrigin);
         webCorsConfiguration.setAllowedMethods(List.of(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.PUT.name(), HttpMethod.PATCH.name(), HttpMethod.DELETE.name(), HttpMethod.OPTIONS.name()));
         webCorsConfiguration.setAllowedHeaders(List.of(HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE, HttpHeaders.ACCEPT, "X-XSRF-TOKEN"));
         webCorsConfiguration.setAllowCredentials(true);
