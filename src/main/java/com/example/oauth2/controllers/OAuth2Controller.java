@@ -2,15 +2,13 @@ package com.example.oauth2.controllers;
 
 import com.example.oauth2.abstractions.CurrentUserService;
 import com.example.oauth2.abstractions.JwtService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
 import java.util.Collections;
@@ -23,7 +21,7 @@ public class OAuth2Controller {
     private final CurrentUserService currentUserService;
 
     @PostMapping("/auth/login")
-    public ResponseEntity<AuthorizationResponse> login(HttpServletResponse response) {
+    public ResponseEntity<AuthorizationResponse> login(HttpServletRequest request, HttpServletResponse response) {
         final String accessToken = this.jwtService.generateAccessToken(UUID.randomUUID().toString(), "USER", Collections.emptyList());
         final String refreshToken = UUID.randomUUID().toString();
 
@@ -46,13 +44,13 @@ public class OAuth2Controller {
         return "private route " + userId;
     }
 
-    @GetMapping("/role")
+    @PatchMapping("/role")
     public String role() {
-        return "Voce conseguiu acessar pois tem cargo para isso!";
+        return "Voce conseguiu atualizar pois tem cargo para isso!";
     }
 
     @PostMapping("/auth/refresh")
-    public ResponseEntity<String> refresh(@CookieValue(value = "refreshToken") String refreshToken) {
+    public ResponseEntity<String> refresh(@CookieValue String refreshToken) {
         System.out.println(refreshToken);
         return ResponseEntity.ok().build();
     }

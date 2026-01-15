@@ -18,13 +18,13 @@ import java.io.OutputStream;
 import java.util.Collections;
 
 @Component
-public class JwtAuthenticationEntryPointHandler implements AuthenticationEntryPoint {
+public class CustomAuthenticationEntryPointHandler implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authenticationException) throws IOException {
         String message = "Authentication failed";
 
         if (authenticationException instanceof InsufficientAuthenticationException) {
-            message = "Access token is required to access this resource";
+            message = "Access token is required";
         }
 
         final Throwable cause = authenticationException.getCause();

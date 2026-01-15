@@ -19,7 +19,7 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
+public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     private final JwtService jwtService;
 
     @Override
@@ -35,15 +35,15 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         final String accessToken = this.jwtService.generateAccessToken(userId, "USER", Collections.emptyList());
         final String refreshToken = UUID.randomUUID().toString();
 
-        final ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
+        final ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", refreshToken)
                 .httpOnly(true)
                 .secure(true)
-                .sameSite("None") // backend domain is different of frontend domain that's why is None
-                .path("/api/auth/refresh")
+                .sameSite("None")
+                .path("/auth/refresh")
                 .maxAge(Duration.ofDays(15))
                 .build();
 
-        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
 
         final String redirectURL = UriComponentsBuilder.fromUriString("http://localhost:3000/oauth/callback")
                 .queryParam("accessToken", accessToken).build().toUriString();
