@@ -28,7 +28,7 @@ public class OAuth2Controller {
         final ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", refreshToken)
                 .httpOnly(true)
                 .secure(true)
-                .sameSite("None") // backend domain is different of frontend domain that's why is None
+                .sameSite("none") // backend domain is different of frontend domain that's why is None
                 .path("/auth/refresh")
                 .maxAge(Duration.ofDays(15)) // from 7 to 30 days to keep refreshToken in the cookie
                 .build();

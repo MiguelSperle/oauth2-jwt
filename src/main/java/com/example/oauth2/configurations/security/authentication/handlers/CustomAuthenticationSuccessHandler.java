@@ -38,7 +38,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         final ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", refreshToken)
                 .httpOnly(true)
                 .secure(true)
-                .sameSite("None")
+                .sameSite("none")
                 .path("/auth/refresh")
                 .maxAge(Duration.ofDays(15))
                 .build();
