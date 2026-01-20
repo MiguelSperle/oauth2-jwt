@@ -9,7 +9,11 @@
 </p>
 
 <p>
-OAuth2-JWT is a back-end application developed for learning purposes, demonstrating the implementation of Google social login using OAuth2 and JWT.
+OAuth2-JWT is a back-end application developed for learning purposes, demonstrating the implementation of Google social login using OAuth2, JWT - access token and refresh token.
+</p>
+
+<p>
+    It provides security implementation with CSRF token because of the refresh token in cookies and also includes CORS configuration.
 </p>
 
 <h2>🚀 Getting started</h2>
