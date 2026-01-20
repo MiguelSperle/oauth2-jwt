@@ -2,6 +2,7 @@ package com.example.oauth2.controllers;
 
 import com.example.oauth2.abstractions.CurrentUserService;
 import com.example.oauth2.abstractions.JwtService;
+import com.example.oauth2.controllers.dtos.AuthorizationResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

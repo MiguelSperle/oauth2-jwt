@@ -23,7 +23,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         String message = "Access denied";
 
         if (accessDeniedException instanceof MissingCsrfTokenException) {
-            message = "CSRF token is missing in the cookies";
+            message = "CSRF token is missing";
         } else if (accessDeniedException instanceof InvalidCsrfTokenException) {
             message = "CSRF token is invalid";
         }
