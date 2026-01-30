@@ -38,7 +38,7 @@ public class CustomAuthenticationEntryPointHandler implements AuthenticationEntr
         final ApiError apiError = new ApiError(Collections.singletonList(message), HttpStatus.UNAUTHORIZED.getReasonPhrase());
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
 
         final OutputStream outputStream = response.getOutputStream();
         final ObjectMapper mapper = new ObjectMapper();
