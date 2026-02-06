@@ -13,7 +13,7 @@ OAuth2-JWT is a back-end application developed for learning purposes, demonstrat
 </p>
 
 <p>
-    It provides security implementation with CSRF token because of the refresh token in the HttpOnly Cookie and also includes CORS configuration.
+    It provides security implementation with a custom CSRF token filter because of the refresh token is in an HttpOnly Cookie and also includes CORS configuration.
 </p>
 
 <h2>🚀 Getting started</h2>
