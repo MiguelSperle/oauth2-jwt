@@ -21,7 +21,7 @@ public class WebCorsConfiguration {
         final CorsConfiguration webCorsConfiguration = new CorsConfiguration();
         webCorsConfiguration.addAllowedOrigin(this.allowedOrigin);
         webCorsConfiguration.setAllowedMethods(List.of(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.PUT.name(), HttpMethod.PATCH.name(), HttpMethod.DELETE.name(), HttpMethod.OPTIONS.name()));
-        webCorsConfiguration.setAllowedHeaders(List.of(HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE, HttpHeaders.ACCEPT, "X-XSRF-TOKEN"));
+        webCorsConfiguration.setAllowedHeaders(List.of(HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE, HttpHeaders.ACCEPT, "x-csrf-token"));
         webCorsConfiguration.setAllowCredentials(true);
         webCorsConfiguration.setMaxAge(3600L);
 

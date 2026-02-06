@@ -7,8 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.csrf.InvalidCsrfTokenException;
-import org.springframework.security.web.csrf.MissingCsrfTokenException;
 import org.springframework.stereotype.Component;
 import tools.jackson.databind.ObjectMapper;
 
@@ -21,12 +19,6 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
         String message = "Access denied";
-
-        if (accessDeniedException instanceof MissingCsrfTokenException) {
-            message = "CSRF token is missing";
-        } else if (accessDeniedException instanceof InvalidCsrfTokenException) {
-            message = "CSRF token is invalid";
-        }
 
         final ApiError apiError = new ApiError(Collections.singletonList(message), HttpStatus.FORBIDDEN.getReasonPhrase());
 

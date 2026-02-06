@@ -35,12 +35,12 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         final String accessToken = this.jwtService.generateAccessToken(userId, "USER", Collections.emptyList());
         final String refreshToken = UUID.randomUUID().toString();
 
-        final ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", refreshToken)
+        final ResponseCookie refreshTokenCookie = ResponseCookie.from("refresh-token", refreshToken)
                 .httpOnly(true)
                 .secure(true)
                 .sameSite("none")
                 .path("/auth/refresh")
-                .maxAge(Duration.ofDays(15))
+                .maxAge(1296000) // from 7 to 30 days to keep refreshToken in the cookie ( in seconds )
                 .build();
 
         response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());

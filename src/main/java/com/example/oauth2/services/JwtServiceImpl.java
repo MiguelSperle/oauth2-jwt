@@ -30,7 +30,7 @@ public class JwtServiceImpl implements JwtService {
         final JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer(this.issuer)
                 .issuedAt(now)
-                .expiresAt(now.plusSeconds(5)) // from 5 until 15 minutes for the jwt expire
+                .expiresAt(now.plusSeconds(900)) // from 5 until 15 minutes for the jwt expire
                 .subject(userId)
                 .claim("role", role)
                 .claim("permissions", permissions)
