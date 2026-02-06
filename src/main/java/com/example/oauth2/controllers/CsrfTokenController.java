@@ -22,7 +22,7 @@ public class CsrfTokenController {
                 .httpOnly(true)
                 .secure(true)
                 .sameSite("none")
-                .path("/")
+                .path("/auth/refresh")
                 .build();
 
         response.addHeader(HttpHeaders.SET_COOKIE, csrfTokenCookie.toString());

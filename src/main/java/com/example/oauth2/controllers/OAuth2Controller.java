@@ -53,7 +53,7 @@ public class OAuth2Controller {
 
     @PostMapping("/auth/refresh")
     @CsrfToken
-    public ResponseEntity<String> refresh(@CookieValue(value = "refresh_token") String refreshToken) {
+    public ResponseEntity<String> refresh(@CookieValue(value = "refresh-token") String refreshToken) {
         System.out.println("Refresh token: " + refreshToken);
         return ResponseEntity.ok().build();
     }
