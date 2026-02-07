@@ -25,16 +25,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(CsrfTokenRequiredException.class)
     public ResponseEntity<ApiError> handleCsrfTokenRequiredException(CsrfTokenRequiredException ex) {
         log.info("Csrf token required exception: {}", ex.getMessage());
-        return ResponseEntity.badRequest().body(ApiError.from(
-                Collections.singletonList(ex.getMessage()), HttpStatus.BAD_REQUEST.getReasonPhrase()
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ApiError.from(
+                Collections.singletonList(ex.getMessage()), HttpStatus.FORBIDDEN.getReasonPhrase()
         ));
     }
 
     @ExceptionHandler(InvalidCsrfTokenException.class)
     public ResponseEntity<ApiError> handleInvalidCsrfTokenException(InvalidCsrfTokenException ex) {
         log.info("Invalid Csrf token exception: {}", ex.getMessage());
-        return ResponseEntity.badRequest().body(ApiError.from(
-                Collections.singletonList(ex.getMessage()), HttpStatus.BAD_REQUEST.getReasonPhrase()
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ApiError.from(
+                Collections.singletonList(ex.getMessage()), HttpStatus.FORBIDDEN.getReasonPhrase()
         ));
     }
 }
