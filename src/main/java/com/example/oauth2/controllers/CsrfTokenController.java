@@ -28,6 +28,9 @@ public class CsrfTokenController {
 
         response.addHeader(HttpHeaders.SET_COOKIE, csrfTokenCookie.toString());
 
-        return ResponseEntity.ok().body(CsrfTokenResponse.from(csrfToken));
+        return ResponseEntity.ok().body(CsrfTokenResponse.from(
+                csrfToken,
+                CsrfToken.CSRF_TOKEN_HEADER
+        ));
     }
 }
