@@ -3,6 +3,7 @@ package com.example.oauth2.configurations.security.authentication.handlers;
 import com.example.oauth2.utils.ApiError;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.jspecify.annotations.NonNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
@@ -20,14 +21,18 @@ import java.util.Collections;
 @Component
 public class CustomAuthenticationEntryPointHandler implements AuthenticationEntryPoint {
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authenticationException) throws IOException {
+    public void commence(
+            @NonNull final HttpServletRequest request,
+            @NonNull final HttpServletResponse response,
+            @NonNull final AuthenticationException ex
+    ) throws IOException {
         String message = "Authentication failed";
 
-        if (authenticationException instanceof InsufficientAuthenticationException) {
+        if (ex instanceof InsufficientAuthenticationException) {
             message = "Access token is required";
         }
 
-        final Throwable cause = authenticationException.getCause();
+        final Throwable cause = ex.getCause();
 
         if (cause instanceof JwtValidationException) {
             message = "Access token is expired";

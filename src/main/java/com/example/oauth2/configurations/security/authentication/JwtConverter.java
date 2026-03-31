@@ -14,7 +14,7 @@ import java.util.List;
 @Component
 public class JwtConverter implements Converter<Jwt, AbstractAuthenticationToken> {
     @Override
-    public AbstractAuthenticationToken convert(Jwt jwt) {
+    public AbstractAuthenticationToken convert(final Jwt jwt) {
         final List<GrantedAuthority> authorities = new ArrayList<>();
 
         final String role = jwt.getClaimAsString("role");
@@ -25,7 +25,7 @@ public class JwtConverter implements Converter<Jwt, AbstractAuthenticationToken>
 
         final List<String> permissions = jwt.getClaimAsStringList("permissions");
 
-        if (permissions != null) {
+        if (!permissions.isEmpty()) {
             authorities.addAll(permissions.stream().map(SimpleGrantedAuthority::new).toList());
         }
 

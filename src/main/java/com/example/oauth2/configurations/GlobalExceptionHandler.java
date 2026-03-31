@@ -15,7 +15,7 @@ import java.util.Collections;
 @Slf4j
 public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiError> handleException(Exception ex) {
+    public ResponseEntity<ApiError> handleException(final Exception ex) {
         log.error("Handling unexpected exception: {}", ex.getMessage(), ex);
         return ResponseEntity.internalServerError().body(ApiError.from(
                 Collections.singletonList("An unexpected error occurred"), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()
@@ -23,16 +23,16 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(CsrfTokenRequiredException.class)
-    public ResponseEntity<ApiError> handleCsrfTokenRequiredException(CsrfTokenRequiredException ex) {
-        log.info("Csrf token required exception: {}", ex.getMessage());
+    public ResponseEntity<ApiError> handleCsrfTokenRequiredException(final CsrfTokenRequiredException ex) {
+        log.info("Handling csrf token required exception: {}", ex.getMessage());
         return ResponseEntity.badRequest().body(ApiError.from(
                 Collections.singletonList(ex.getMessage()), HttpStatus.BAD_REQUEST.getReasonPhrase()
         ));
     }
 
     @ExceptionHandler(InvalidCsrfTokenException.class)
-    public ResponseEntity<ApiError> handleInvalidCsrfTokenException(InvalidCsrfTokenException ex) {
-        log.info("Invalid Csrf token exception: {}", ex.getMessage());
+    public ResponseEntity<ApiError> handleInvalidCsrfTokenException(final InvalidCsrfTokenException ex) {
+        log.info("Handling invalid Csrf token exception: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ApiError.from(
                 Collections.singletonList(ex.getMessage()), HttpStatus.FORBIDDEN.getReasonPhrase()
         ));

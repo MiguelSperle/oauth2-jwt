@@ -1,7 +1,6 @@
 package com.example.oauth2.services;
 
 import com.example.oauth2.abstractions.JwtService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -12,19 +11,18 @@ import java.time.Instant;
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor
 public class JwtServiceImpl implements JwtService {
     private final JwtEncoder jwtEncoder;
 
-    @Value("${application.jwt.issuer}")
+    public JwtServiceImpl(final JwtEncoder jwtEncoder) {
+        this.jwtEncoder = jwtEncoder;
+    }
+
+    @Value("${app.security.jwt.issuer}")
     private String issuer;
 
     @Override
-    public String generateAccessToken(
-            String userId,
-            String role,
-            List<String> permissions
-    ) {
+    public String generateAccessToken(final String userId, final String role, final List<String> permissions) {
         final Instant now = Instant.now(); // instant is UTC and with that, it ignores local time zone ( it is a universal watch )
 
         final JwtClaimsSet claims = JwtClaimsSet.builder()

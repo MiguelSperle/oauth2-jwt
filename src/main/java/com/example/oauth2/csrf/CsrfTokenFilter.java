@@ -6,8 +6,9 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -19,15 +20,27 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
-@Slf4j
 @Component
-@RequiredArgsConstructor
 public class CsrfTokenFilter extends OncePerRequestFilter {
     private final RequestMappingHandlerMapping requestMappingHandlerMapping;
     private final HandlerExceptionResolver handlerExceptionResolver;
 
+    public CsrfTokenFilter(
+            final RequestMappingHandlerMapping requestMappingHandlerMapping,
+            final HandlerExceptionResolver handlerExceptionResolver
+    ) {
+        this.requestMappingHandlerMapping = requestMappingHandlerMapping;
+        this.handlerExceptionResolver = handlerExceptionResolver;
+    }
+
+    private static final Logger log = LoggerFactory.getLogger(CsrfTokenFilter.class);
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
+    protected void doFilterInternal(
+            @NonNull final HttpServletRequest request,
+            @NonNull final HttpServletResponse response,
+            @NonNull final FilterChain filterChain
+    ) {
         try {
             log.info("Processing csrf token filter");
 
@@ -48,17 +61,17 @@ public class CsrfTokenFilter extends OncePerRequestFilter {
             }
 
             filterChain.doFilter(request, response);
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             this.handlerExceptionResolver.resolveException(request, response, null, ex);
         }
     }
 
-    private HandlerMethod getHandlerMethod(HttpServletRequest request) {
+    private HandlerMethod getHandlerMethod(final HttpServletRequest request) {
         final HandlerExecutionChain handlerChain;
 
         try {
             handlerChain = this.requestMappingHandlerMapping.getHandler(request);
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             throw new RuntimeException(ex);
         }
 
@@ -69,13 +82,15 @@ public class CsrfTokenFilter extends OncePerRequestFilter {
         return null;
     }
 
-    private boolean isCsrfTokenAnnotated(HandlerMethod handlerMethod) {
+    private boolean isCsrfTokenAnnotated(final HandlerMethod handlerMethod) {
         final Method method = handlerMethod.getMethod();
         return method.isAnnotationPresent(CsrfToken.class) && handlerMethod.getBeanType().isAnnotationPresent(RestController.class);
     }
 
-    private String getCsrfTokenCookie(HttpServletRequest request) {
-        if (request.getCookies() == null) return null;
+    private String getCsrfTokenCookie(final HttpServletRequest request) {
+        if (request.getCookies() == null) {
+            return null;
+        }
 
         return Arrays.stream(request.getCookies())
                 .filter(cookie -> CsrfToken.CSRF_TOKEN_COOKIE.equals(cookie.getName()))

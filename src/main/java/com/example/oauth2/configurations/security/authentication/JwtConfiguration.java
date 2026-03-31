@@ -17,10 +17,10 @@ import java.security.interfaces.RSAPublicKey;
 
 @Configuration
 public class JwtConfiguration {
-    @Value("${application.jwt.public.key}")
+    @Value("${app.security.jwt.public.key}")
     private RSAPublicKey rsaPublicKey;
 
-    @Value("${application.jwt.private.key}")
+    @Value("${app.security.jwt.private.key}")
     private RSAPrivateKey rsaPrivateKey;
 
     @Bean

@@ -1,4 +1,4 @@
-package com.example.oauth2.configurations.web.cors;
+package com.example.oauth2.configurations.security.web.cors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -13,20 +13,21 @@ import java.util.List;
 
 @Configuration
 public class WebCorsConfiguration {
-    @Value("${application.web.cors.allowed-origin}")
+    @Value("${app.security.web.cors.allowed-origin}")
     private String allowedOrigin;
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        final CorsConfiguration webCorsConfiguration = new CorsConfiguration();
-        webCorsConfiguration.addAllowedOrigin(this.allowedOrigin);
-        webCorsConfiguration.setAllowedMethods(List.of(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.PUT.name(), HttpMethod.PATCH.name(), HttpMethod.DELETE.name(), HttpMethod.OPTIONS.name()));
-        webCorsConfiguration.setAllowedHeaders(List.of(HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE, HttpHeaders.ACCEPT, "x-csrf-token"));
-        webCorsConfiguration.setAllowCredentials(true);
-        webCorsConfiguration.setMaxAge(3600L);
+        final CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedOrigin(this.allowedOrigin);
+        corsConfiguration.setAllowedMethods(List.of(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.PUT.name(), HttpMethod.PATCH.name(), HttpMethod.DELETE.name(), HttpMethod.OPTIONS.name()));
+        corsConfiguration.setAllowedHeaders(List.of(HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE, HttpHeaders.ACCEPT, "x-csrf-token"));
+        corsConfiguration.setAllowCredentials(true);
+        corsConfiguration.setMaxAge(3600L);
 
         final UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
-        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", webCorsConfiguration);
+        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+
         return urlBasedCorsConfigurationSource;
     }
 }

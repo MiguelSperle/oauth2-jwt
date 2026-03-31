@@ -1,11 +1,11 @@
 package com.example.oauth2.exceptions;
 
 public class InvalidCsrfTokenException extends RuntimeException {
-    public InvalidCsrfTokenException(String message) {
+    public InvalidCsrfTokenException(final String message) {
         super(message);
     }
 
-    public static InvalidCsrfTokenException with(String message) {
+    public static InvalidCsrfTokenException with(final String message) {
         return new InvalidCsrfTokenException(message);
     }
 }

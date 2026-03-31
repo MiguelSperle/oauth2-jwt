@@ -3,7 +3,6 @@ package com.example.oauth2.configurations.security;
 import com.example.oauth2.abstractions.JwtService;
 import com.example.oauth2.configurations.security.authentication.handlers.*;
 import com.example.oauth2.configurations.security.authentication.JwtConverter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,12 +15,15 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 public class SecurityConfiguration {
     private final JwtService jwtService;
 
+    public SecurityConfiguration(final JwtService jwtService) {
+        this.jwtService = jwtService;
+    }
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {
+    public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) {
         return httpSecurity
                 .authorizeHttpRequests(authorize ->
                         authorize
