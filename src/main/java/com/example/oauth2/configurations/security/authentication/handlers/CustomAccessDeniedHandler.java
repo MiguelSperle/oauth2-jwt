@@ -1,6 +1,7 @@
 package com.example.oauth2.configurations.security.authentication.handlers;
 
 import com.example.oauth2.utils.ApiError;
+import com.example.oauth2.utils.InstantUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.jspecify.annotations.NonNull;
@@ -25,7 +26,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     ) throws IOException {
         final String message = "Access denied";
 
-        final ApiError apiError = new ApiError(Collections.singletonList(message), HttpStatus.FORBIDDEN.getReasonPhrase());
+        final ApiError apiError = new ApiError(Collections.singletonList(message), InstantUtils.now());
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.FORBIDDEN.value());

@@ -1,6 +1,6 @@
 package com.example.oauth2.configurations.security;
 
-import com.example.oauth2.abstractions.JwtService;
+import com.example.oauth2.abstractions.services.JwtTokenService;
 import com.example.oauth2.configurations.security.authentication.handlers.*;
 import com.example.oauth2.configurations.security.authentication.JwtConverter;
 import org.springframework.context.annotation.Bean;
@@ -16,10 +16,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-    private final JwtService jwtService;
+    private final JwtTokenService jwtTokenService;
 
-    public SecurityConfiguration(final JwtService jwtService) {
-        this.jwtService = jwtService;
+    public SecurityConfiguration(final JwtTokenService jwtTokenService) {
+        this.jwtTokenService = jwtTokenService;
     }
 
     @Bean
@@ -33,7 +33,7 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2Login(oauth2Login -> {
-                    oauth2Login.successHandler(new CustomAuthenticationSuccessHandler(this.jwtService));
+                    oauth2Login.successHandler(new CustomAuthenticationSuccessHandler(this.jwtTokenService));
                     oauth2Login.failureHandler(new CustomAuthenticationFailureHandler());
                 })
                 .oauth2ResourceServer(oauth2ResourceServer -> {

@@ -43,30 +43,11 @@ mvn clean install
 
 <h3>🔑 System environment variables</h3>
 
-```
-spring:
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: YOUR_CLIENT_ID
-            client-secret: YOUR_CLIENT_SECRET
-            scope:
-              - email
-              - profile
+| Variable               | Description
+|------------------------|------------
+| `GOOGLE_CLIENT_ID`     | To specify the Database server address
+| `GOOGLE_CLIENT_SECRET` | To specify the Database name
 
-application:
-  jwt:
-    issuer: oauth2
-    public:
-      key: classpath:app.pub
-    private:
-      key: classpath:app.key
-  web:
-    cors:
-      allowed-origin: http://localhost:3000
-```
 
 <h3>👨🏻‍💻 Developer</h3>
 

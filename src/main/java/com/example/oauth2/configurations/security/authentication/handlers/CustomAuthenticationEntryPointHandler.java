@@ -1,6 +1,7 @@
 package com.example.oauth2.configurations.security.authentication.handlers;
 
 import com.example.oauth2.utils.ApiError;
+import com.example.oauth2.utils.InstantUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.jspecify.annotations.NonNull;
@@ -40,7 +41,7 @@ public class CustomAuthenticationEntryPointHandler implements AuthenticationEntr
             message = "Access token is invalid";
         }
 
-        final ApiError apiError = new ApiError(Collections.singletonList(message), HttpStatus.UNAUTHORIZED.getReasonPhrase());
+        final ApiError apiError = new ApiError(Collections.singletonList(message), InstantUtils.now());
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());

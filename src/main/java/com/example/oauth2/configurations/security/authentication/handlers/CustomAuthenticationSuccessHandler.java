@@ -1,6 +1,6 @@
 package com.example.oauth2.configurations.security.authentication.handlers;
 
-import com.example.oauth2.abstractions.JwtService;
+import com.example.oauth2.abstractions.services.JwtTokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.jspecify.annotations.NonNull;
@@ -18,10 +18,10 @@ import java.util.UUID;
 
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
-    private final JwtService jwtService;
+    private final JwtTokenService jwtTokenService;
 
-    public CustomAuthenticationSuccessHandler(final JwtService jwtService) {
-        this.jwtService = jwtService;
+    public CustomAuthenticationSuccessHandler(final JwtTokenService jwtTokenService) {
+        this.jwtTokenService = jwtTokenService;
     }
 
     @Override
@@ -39,16 +39,16 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         final String userId = UUID.randomUUID().toString(); // * Here will be user id where we are going to retrieve from the (database)
 
-        final String accessToken = this.jwtService.generateAccessToken(userId, "USER", Collections.emptyList());
+        final String accessToken = this.jwtTokenService.generateAccessToken(userId, "USER", Collections.emptyList());
 
         final String refreshToken = UUID.randomUUID().toString(); // * Here we are going to call a (usecase) that will create the refresh token
 
         final ResponseCookie refreshTokenCookie = ResponseCookie.from("refresh-token", refreshToken)
                 .httpOnly(true)
                 .secure(true)
-                .sameSite("none")
+                .sameSite("none") // backend domain is different of frontend domain that's why is "none"
                 .path("/auth/refresh")
-                .maxAge(1296000) // from 7 to 30 days to keep refreshToken in the cookie ( in seconds )
+                .maxAge(1296000L) // from 7 to 30 days to keep refreshToken in the cookie and the cookie's duration can be the same as the token's duration.
                 .build();
 
         response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());

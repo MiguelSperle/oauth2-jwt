@@ -2,7 +2,6 @@ package com.example.oauth2.controllers;
 
 import com.example.oauth2.controllers.dtos.CsrfTokenResponse;
 import com.example.oauth2.csrf.CsrfToken;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -16,19 +15,17 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CsrfTokenController {
     @PostMapping("/auth/csrf-token")
-    public ResponseEntity<CsrfTokenResponse> csrfToken(HttpServletResponse response) {
+    public ResponseEntity<CsrfTokenResponse> csrfToken() {
         final String csrfToken = UUID.randomUUID().toString();
 
         final ResponseCookie csrfTokenCookie = ResponseCookie.from(CsrfToken.CSRF_TOKEN_COOKIE, csrfToken)
                 .httpOnly(true)
                 .secure(true)
-                .sameSite("none")
+                .sameSite("none") // backend domain is different of frontend domain that's why is "none"
                 .path("/auth/refresh")
                 .build();
 
-        response.addHeader(HttpHeaders.SET_COOKIE, csrfTokenCookie.toString());
-
-        return ResponseEntity.ok().body(CsrfTokenResponse.from(
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, csrfTokenCookie.toString()).body(CsrfTokenResponse.from(
                 csrfToken,
                 CsrfToken.CSRF_TOKEN_HEADER
         ));
