@@ -20,8 +20,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleException(final Exception ex) {
         log.error("Handling unexpected exception: {}", ex.getMessage(), ex);
+        final String message = "An unexpected error occurred";
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ApiError.from(
-                Collections.singletonList("An unexpected error occurred"), InstantUtils.now()
+                Collections.singletonList(message), InstantUtils.now()
         ));
     }
 
