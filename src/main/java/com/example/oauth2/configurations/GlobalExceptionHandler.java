@@ -22,21 +22,21 @@ public class GlobalExceptionHandler {
         log.error("Handling unexpected exception: {}", ex.getMessage(), ex);
         final String message = "An unexpected error occurred";
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ApiError.from(
-                Collections.singletonList(message), InstantUtils.now()
+                Collections.singletonList(message), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), InstantUtils.now()
         ));
     }
 
     @ExceptionHandler(CsrfTokenRequiredException.class)
     public ResponseEntity<ApiError> handleCsrfTokenRequiredException(final CsrfTokenRequiredException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiError.from(
-                Collections.singletonList(ex.getMessage()), InstantUtils.now()
+                Collections.singletonList(ex.getMessage()), HttpStatus.BAD_REQUEST.getReasonPhrase(), InstantUtils.now()
         ));
     }
 
     @ExceptionHandler(InvalidCsrfTokenException.class)
     public ResponseEntity<ApiError> handleInvalidCsrfTokenException(final InvalidCsrfTokenException ex) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ApiError.from(
-                Collections.singletonList(ex.getMessage()), InstantUtils.now()
+                Collections.singletonList(ex.getMessage()), HttpStatus.FORBIDDEN.getReasonPhrase(), InstantUtils.now()
         ));
     }
 }

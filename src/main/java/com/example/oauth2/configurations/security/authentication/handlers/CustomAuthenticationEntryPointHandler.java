@@ -36,7 +36,9 @@ public class CustomAuthenticationEntryPointHandler implements AuthenticationEntr
             message = "Access token is invalid";
         }
 
-        final ApiError apiError = new ApiError(Collections.singletonList(message), InstantUtils.now());
+        final ApiError apiError = new ApiError(
+                Collections.singletonList(message), HttpStatus.UNAUTHORIZED.getReasonPhrase(), InstantUtils.now()
+        );
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());

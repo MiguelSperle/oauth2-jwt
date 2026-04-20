@@ -26,7 +26,9 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     ) throws IOException {
         final String message = "Access denied";
 
-        final ApiError apiError = new ApiError(Collections.singletonList(message), InstantUtils.now());
+        final ApiError apiError = new ApiError(
+                Collections.singletonList(message), HttpStatus.FORBIDDEN.getReasonPhrase(), InstantUtils.now()
+        );
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.FORBIDDEN.value());
