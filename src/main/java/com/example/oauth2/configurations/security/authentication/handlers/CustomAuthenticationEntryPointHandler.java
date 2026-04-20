@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.jspecify.annotations.NonNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.jwt.BadJwtException;
 import org.springframework.security.oauth2.jwt.JwtValidationException;
@@ -27,11 +26,7 @@ public class CustomAuthenticationEntryPointHandler implements AuthenticationEntr
             @NonNull final HttpServletResponse response,
             @NonNull final AuthenticationException ex
     ) throws IOException {
-        String message = "Authentication failed";
-
-        if (ex instanceof InsufficientAuthenticationException) {
-            message = "Access token is required";
-        }
+        String message = "Access token is required";
 
         final Throwable cause = ex.getCause();
 
