@@ -41,13 +41,13 @@ public class CsrfTokenFilter extends OncePerRequestFilter {
                 final String csrfTokenHeader = request.getHeader(CsrfToken.CSRF_TOKEN_HEADER);
 
                 if (csrfTokenHeader == null || csrfTokenHeader.isBlank()) {
-                    throw new CsrfTokenRequiredException("Csrf token is required and the required header is 'x-csrf-token'");
+                    throw new CsrfTokenRequiredException("CSRF token is required and the required header is 'x-csrf-token'");
                 }
 
                 final String csrfTokenCookie = this.getCsrfTokenCookie(request);
 
                 if (!csrfTokenHeader.equals(csrfTokenCookie)) {
-                    throw new InvalidCsrfTokenException("Invalid csrf token");
+                    throw new InvalidCsrfTokenException("Invalid CSRF token");
                 }
             }
 
