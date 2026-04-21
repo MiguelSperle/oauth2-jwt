@@ -11,7 +11,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -21,7 +21,7 @@ public class OAuth2Controller {
 
     @PostMapping("/auth/login")
     public ResponseEntity<AuthorizationResponse> login() {
-        final String accessToken = this.jwtTokenService.generateAccessToken(UUID.randomUUID().toString(), "USER", Collections.emptyList());
+        final String accessToken = this.jwtTokenService.generateAccessToken(UUID.randomUUID().toString(), "USER", List.of());
         final String refreshToken = UUID.randomUUID().toString();
 
         final ResponseCookie refreshTokenCookie = ResponseCookie.from("refresh-token", refreshToken)

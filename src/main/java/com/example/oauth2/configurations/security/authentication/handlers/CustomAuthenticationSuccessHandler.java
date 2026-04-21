@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -39,7 +39,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         final String userId = UUID.randomUUID().toString(); // * Here will be user id where we are going to retrieve from the (database)
 
-        final String accessToken = this.jwtTokenService.generateAccessToken(userId, "USER", Collections.emptyList());
+        final String accessToken = this.jwtTokenService.generateAccessToken(userId, "USER", List.of());
 
         final String refreshToken = UUID.randomUUID().toString(); // * Here we are going to call a (usecase) that will create the refresh token
 
