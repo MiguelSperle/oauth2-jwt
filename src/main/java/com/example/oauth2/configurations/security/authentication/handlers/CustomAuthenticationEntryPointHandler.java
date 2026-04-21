@@ -1,5 +1,6 @@
 package com.example.oauth2.configurations.security.authentication.handlers;
 
+import com.example.oauth2.configurations.json.Json;
 import com.example.oauth2.utils.ApiError;
 import com.example.oauth2.utils.InstantUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,10 +13,8 @@ import org.springframework.security.oauth2.jwt.BadJwtException;
 import org.springframework.security.oauth2.jwt.JwtValidationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
-import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.io.OutputStream;
 
 @Component
 public class CustomAuthenticationEntryPointHandler implements AuthenticationEntryPoint {
@@ -37,13 +36,9 @@ public class CustomAuthenticationEntryPointHandler implements AuthenticationEntr
 
         final ApiError apiError = ApiError.from(message, InstantUtils.now());
 
+        response.getWriter().write(Json.writeValueAsString(apiError));
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
-
-        final OutputStream outputStream = response.getOutputStream();
-        final ObjectMapper mapper = new ObjectMapper();
-
-        mapper.writeValue(outputStream, apiError);
-        outputStream.flush();
     }
 }
