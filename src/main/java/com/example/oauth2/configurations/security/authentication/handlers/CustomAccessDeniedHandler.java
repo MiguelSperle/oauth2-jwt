@@ -14,7 +14,6 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Collections;
 
 @Component
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
@@ -24,11 +23,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
             @NonNull final HttpServletResponse response,
             @NonNull final AccessDeniedException ex
     ) throws IOException {
-        final String message = "Access denied";
-
-        final ApiError apiError = new ApiError(
-                Collections.singletonList(message), HttpStatus.FORBIDDEN.getReasonPhrase(), InstantUtils.now()
-        );
+        final ApiError apiError = ApiError.from("Access denied", InstantUtils.now());
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.FORBIDDEN.value());

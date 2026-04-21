@@ -16,7 +16,6 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Collections;
 
 @Component
 public class CustomAuthenticationEntryPointHandler implements AuthenticationEntryPoint {
@@ -36,9 +35,7 @@ public class CustomAuthenticationEntryPointHandler implements AuthenticationEntr
             message = "Access token is invalid";
         }
 
-        final ApiError apiError = new ApiError(
-                Collections.singletonList(message), HttpStatus.UNAUTHORIZED.getReasonPhrase(), InstantUtils.now()
-        );
+        final ApiError apiError = ApiError.from(message, InstantUtils.now());
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());

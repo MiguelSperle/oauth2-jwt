@@ -32,7 +32,6 @@ public class JwtTokenServiceImpl implements JwtTokenService {
         try {
             final Instant now = InstantUtils.now();
 
-
             final JwtClaimsSet claims = JwtClaimsSet.builder()
                     .issuer(this.issuer)
                     .issuedAt(now)
@@ -44,8 +43,8 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 
             return this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
         } catch (final Exception ex) {
-            log.error("Failed to generate access token", ex);
-            throw new AccessTokenGenerationFailedException("Failed to generate access token");
+            log.error("Failed to generate access token | userId: {}, role: {}, permissions: {}", userId, role, permissions, ex);
+            throw new AccessTokenGenerationFailedException("Failed to generate access token", ex);
         }
     }
 }

@@ -19,6 +19,5 @@ app:
         key: classpath:app.public.key
       private:
         key: classpath:app.private.key
-    web:
-      cors:
-        allowed-origin: http://localhost:3000
+    cors:
+      allowed-origin: http://localhost:3000
