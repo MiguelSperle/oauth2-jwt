@@ -26,12 +26,12 @@ import java.util.List;
 public class SecurityConfiguration {
     private final JwtTokenService jwtTokenService;
 
-    @Value("${app.security.cors.allowed-origin}")
-    private String allowedOrigin;
-
     public SecurityConfiguration(final JwtTokenService jwtTokenService) {
         this.jwtTokenService = jwtTokenService;
     }
+
+    @Value("${application.security.cors.allowed-origin}")
+    private String allowedOrigin;
 
     @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) {

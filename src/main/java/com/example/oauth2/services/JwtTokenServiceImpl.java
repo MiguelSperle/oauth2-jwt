@@ -22,7 +22,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
         this.jwtEncoder = jwtEncoder;
     }
 
-    @Value("${app.security.jwt.issuer}")
+    @Value("${application.security.jwt.issuer}")
     private String issuer;
 
     private static final Logger log = LoggerFactory.getLogger(JwtTokenServiceImpl.class);

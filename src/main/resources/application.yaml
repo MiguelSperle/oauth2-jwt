@@ -11,7 +11,8 @@ spring:
             scope:
               - email
               - profile
-app:
+
+application:
   security:
     jwt:
       issuer: oauth2-jwt
