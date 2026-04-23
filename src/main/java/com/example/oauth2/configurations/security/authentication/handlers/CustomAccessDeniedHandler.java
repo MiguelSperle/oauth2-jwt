@@ -22,12 +22,12 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
             @NonNull final HttpServletResponse response,
             @NonNull final AccessDeniedException ex
     ) throws IOException {
-        final int statusCode = HttpStatus.FORBIDDEN.value();
+        final int status = HttpStatus.FORBIDDEN.value();
 
-        final ApiError apiError = ApiError.from("Access denied", statusCode, InstantUtils.now());
+        final ApiError apiError = ApiError.from("Access denied", status, InstantUtils.now());
 
         response.getWriter().write(Json.writeValueAsString(apiError));
-        response.setStatus(statusCode);
+        response.setStatus(status);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
     }
 }

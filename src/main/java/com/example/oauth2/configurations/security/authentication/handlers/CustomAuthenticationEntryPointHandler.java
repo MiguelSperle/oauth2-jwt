@@ -34,12 +34,12 @@ public class CustomAuthenticationEntryPointHandler implements AuthenticationEntr
             message = "Access token is invalid";
         }
 
-        final int statusCode = HttpStatus.UNAUTHORIZED.value();
+        final int status = HttpStatus.UNAUTHORIZED.value();
 
-        final ApiError apiError = ApiError.from(message, statusCode, InstantUtils.now());
+        final ApiError apiError = ApiError.from(message, status, InstantUtils.now());
 
         response.getWriter().write(Json.writeValueAsString(apiError));
-        response.setStatus(statusCode);
+        response.setStatus(status);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
     }
 }
