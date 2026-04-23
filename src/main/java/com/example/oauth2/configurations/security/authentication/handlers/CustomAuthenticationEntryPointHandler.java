@@ -37,7 +37,7 @@ public class CustomAuthenticationEntryPointHandler implements AuthenticationEntr
         final ApiError apiError = ApiError.from(message, InstantUtils.now());
 
         response.getWriter().write(Json.writeValueAsString(apiError));
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
     }
 }
