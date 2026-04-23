@@ -3,11 +3,8 @@ package com.example.oauth2.configurations.security;
 import com.example.oauth2.abstractions.services.JwtTokenService;
 import com.example.oauth2.configurations.security.authentication.handlers.*;
 import com.example.oauth2.configurations.security.authentication.JwtConverter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -29,9 +26,6 @@ public class SecurityConfiguration {
     public SecurityConfiguration(final JwtTokenService jwtTokenService) {
         this.jwtTokenService = jwtTokenService;
     }
-
-    @Value("${application.security.cors.allowed-origin}")
-    private String allowedOrigin;
 
     @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) {
@@ -58,9 +52,9 @@ public class SecurityConfiguration {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         final CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin(this.allowedOrigin); // Allow access only to this domain.
-        corsConfiguration.setAllowedMethods(List.of(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.PUT.name(), HttpMethod.PATCH.name(), HttpMethod.DELETE.name(), HttpMethod.OPTIONS.name()));
-        corsConfiguration.setAllowedHeaders(List.of(HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE, HttpHeaders.ACCEPT, "x-csrf-token"));
+        corsConfiguration.addAllowedOrigin("http://localhost:3000"); // Allow access only to this domain
+        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        corsConfiguration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept", "x-csrf-token", "x-idempotency-key"));
         corsConfiguration.setAllowCredentials(true);
 
         final UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();

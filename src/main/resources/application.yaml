@@ -12,13 +12,9 @@ spring:
               - email
               - profile
 
-application:
-  security:
-    jwt:
-      issuer: oauth2-jwt
-      public:
-        key: classpath:app.public.key
-      private:
-        key: classpath:app.private.key
-    cors:
-      allowed-origin: http://localhost:3000
+security:
+  jwt:
+    public:
+      key: classpath:app.public.key
+    private:
+      key: classpath:app.private.key

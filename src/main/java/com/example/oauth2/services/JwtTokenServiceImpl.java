@@ -5,7 +5,6 @@ import com.example.oauth2.exceptions.AccessTokenGenerationFailedException;
 import com.example.oauth2.utils.InstantUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
@@ -22,9 +21,6 @@ public class JwtTokenServiceImpl implements JwtTokenService {
         this.jwtEncoder = jwtEncoder;
     }
 
-    @Value("${application.security.jwt.issuer}")
-    private String issuer;
-
     private static final Logger log = LoggerFactory.getLogger(JwtTokenServiceImpl.class);
 
     @Override
@@ -33,7 +29,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
             final Instant now = InstantUtils.now();
 
             final JwtClaimsSet claims = JwtClaimsSet.builder()
-                    .issuer(this.issuer)
+                    .issuer("oauth2-jwt")
                     .issuedAt(now)
                     .expiresAt(now.plusSeconds(900L)) // from 5 until 15 minutes for the jwt expire
                     .subject(userId)
