@@ -26,7 +26,6 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
         response.getWriter().write(Json.writeValueAsString(apiError));
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
     }
 }
