@@ -49,9 +49,9 @@ public class CsrfTokenFilter extends OncePerRequestFilter {
                 if (!csrfTokenHeader.equals(csrfTokenCookie)) {
                     throw new InvalidCsrfTokenException("Invalid CSRF token");
                 }
+            } else {
+                filterChain.doFilter(request, response);
             }
-
-            filterChain.doFilter(request, response);
         } catch (final Exception ex) {
             this.handlerExceptionResolver.resolveException(request, response, null, ex);
         }
