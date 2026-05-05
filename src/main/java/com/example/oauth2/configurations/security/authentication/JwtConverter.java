@@ -19,13 +19,13 @@ public class JwtConverter implements Converter<Jwt, AbstractAuthenticationToken>
 
         final String role = jwt.getClaimAsString("role");
 
-        if (role != null) {
+        if (role != null && !role.isBlank()) {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
         }
 
-        final List<String> permissions = jwt.getClaimAsStringList("permissions");
+        final List<String> permissions = jwt.getClaimAsStringList("permissionsa");
 
-        if (!permissions.isEmpty()) {
+        if (permissions != null && !permissions.isEmpty()) {
             authorities.addAll(permissions.stream().map(SimpleGrantedAuthority::new).toList());
         }
 
