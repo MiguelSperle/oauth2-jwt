@@ -1,62 +1,6 @@
-<h1>OAuth2-JWT 💻</h1>
+# OAuth2-JWT
 
-<p>
-    <img src="https://img.shields.io/badge/-java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java Badge"/>
-    <img src="https://img.shields.io/badge/-Spring%20Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" alt="SpringBoot Badge"/>
-    <img src="https://img.shields.io/badge/-Spring%20Security-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white" alt="Spring Security Badge" />
-    <img src="https://img.shields.io/badge/OAuth2-000000?style=for-the-badge&logo=oauth&logoColor=white" alt="OAuth2 Badge"/>
-    <img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white" alt="JWT Badge"/>
-</p>
+OAuth2-JWT é uma aplicação backend desenvolvida para fins de aprendizado, demonstrando a implementação do login social do Google utilizando OAuth2, JWT — token de acesso e token de atualização.
 
-<p>
-OAuth2-JWT is a back-end application developed for learning purposes, demonstrating the implementation of Google social login using OAuth2, JWT - access token and refresh token.
-</p>
+A solução implementa segurança com um filtro de token CSRF personalizado — visto que o refresh token é armazenado em um cookie HttpOnly — e também inclui configuração de CORS.
 
-<p>
-    It provides security implementation with a custom CSRF token filter because of the refresh token is in an HttpOnly Cookie and also includes CORS configuration.
-</p>
-
-<h2>🚀 Getting started</h2>
-
-<h3>💻 Prerequisites</h3>
-
-- [JDK 21](https://www.oracle.com/br/java/technologies/downloads/)
-- [Maven](https://maven.apache.org/download.cgi)
-
-<h3>🛸 Cloning</h3>
-
-```
-git clone https://github.com/MiguelSperle/oauth2-jwt.git
-```
-
-📂 Access at folder
-
-```
-cd oauth2-jwt
-```
-
-📡 Install dependencies
-
-```
-mvn clean install
-```
-
-<h3>🔑 System environment variables</h3>
-
-| Variable               | Description
-|------------------------|------------
-| `GOOGLE_CLIENT_ID`     | To specify the Database server address
-| `GOOGLE_CLIENT_SECRET` | To specify the Database name
-
-
-<h3>👨🏻‍💻 Developer</h3>
-
-<table>
-  <tr>
-    <td>
-      <a href="https://github.com/MiguelSperle">
-        <img src="https://avatars.githubusercontent.com/u/102910354?v=4" width="100px;" alt="Miguel Sperle Profile Picture"/><br>
-      </a>
-    </td>
-  </tr>
-</table>
