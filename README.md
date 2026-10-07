@@ -1,4 +1,4 @@
-# OAuth2-JWT
+# OAuth2-jwt
 
 OAuth2-JWT é uma aplicação backend desenvolvida para fins de aprendizado, demonstrando a implementação do login social do Google utilizando OAuth2, JWT — token de acesso e token de atualização.
 
